@@ -83,8 +83,7 @@ public class Tiger extends Animal {
     }
 
     /**
-     * Look for rabbits or foxes adjacent to the current location. Only the first live
-     * rabbit is eaten.
+     * Look for rabbits or foxes adjacent to the current location.
      *
      * @return Where food was found, or null if it wasn't.
      */
