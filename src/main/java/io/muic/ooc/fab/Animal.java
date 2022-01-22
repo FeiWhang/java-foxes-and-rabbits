@@ -3,6 +3,12 @@ package io.muic.ooc.fab;
 import java.util.Random;
 
 public abstract class Animal {
+    protected abstract int getMaxAge();
+    protected abstract int getBreedingAge();
+    protected abstract double getBreedingProbability();
+    protected abstract int getMaxLitterSize();
+
+
     // Individual characteristics (instance fields).
     // The animal age
     private int age = 0;
@@ -15,12 +21,19 @@ public abstract class Animal {
     // Random generator
     protected static final Random RANDOM = new Random();
 
-    protected void setAge(int age) {
-        this.age = age;
-    }
-
-    protected void setAlive(boolean alive) {
-        this.alive = alive;
+    /**
+     * Create a animal. A animal can be created as a new born (age zero)
+     * or with a random age.
+     *
+     * @param field The field currently occupied.
+     * @param location The location within the field.
+     */
+    public Animal(boolean randomAge ,Field field, Location location) {
+        this.field = field;
+        setLocation(location);
+        if (randomAge) {
+            age = (RANDOM.nextInt(getMaxAge()));
+        }
     }
 
     /**
@@ -47,10 +60,6 @@ public abstract class Animal {
 
     protected Field getField() {
         return field;
-    }
-
-    protected void setField(Field field) {
-        this.field = field;
     }
 
     /**
@@ -84,23 +93,25 @@ public abstract class Animal {
      *
      * @return The number of births (may be zero).
      */
-    protected int breed(int breedingAge, double breedingProbability, int maxLitterSize) {
+    protected int breed() {
         int births = 0;
-        if (canBreed(breedingAge) && RANDOM.nextDouble() <= breedingProbability) {
-            births = RANDOM.nextInt(maxLitterSize) + 1;
+        if (canBreed(getBreedingAge()) && RANDOM.nextDouble() <= getBreedingProbability()) {
+            births = RANDOM.nextInt(getMaxLitterSize()) + 1;
         }
         return births;
     }
+
+
 
     /**
      * Indicate that the animal is no longer alive. It is removed from the field.
      */
     protected void setDead() {
-        setAlive(false);
+        alive = false;
         if (location != null) {
             field.clear(location);
             location = null;
-            setField(null);
+            field = null;
         }
     }
 }

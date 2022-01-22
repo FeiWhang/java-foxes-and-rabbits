@@ -13,6 +13,7 @@ public class Fox extends Animal {
     private static final int MAX_AGE = 150;
     // The likelihood of a fox breeding.
     private static final double BREEDING_PROBABILITY = 0.08;
+
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
@@ -32,12 +33,28 @@ public class Fox extends Animal {
      * @param location The location within the field.
      */
     public Fox(boolean randomAge, Field field, Location location) {
-        setField(field);
-        setLocation(location);
-        if (randomAge) {
-           setAge(RANDOM.nextInt(MAX_AGE));
-        }
+        super(randomAge, field, location);
         foodLevel = RANDOM.nextInt(RABBIT_FOOD_VALUE);
+    }
+
+    @Override
+    protected  int getMaxAge() {
+        return MAX_AGE;
+    }
+
+    @Override
+    protected  int getBreedingAge() {
+        return BREEDING_AGE;
+    }
+
+    @Override
+    protected double getBreedingProbability() {
+        return BREEDING_PROBABILITY;
+    }
+
+    @Override
+    protected int getMaxLitterSize() {
+        return MAX_LITTER_SIZE;
     }
 
     /**
@@ -109,13 +126,11 @@ public class Fox extends Animal {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed(BREEDING_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
+        int births = breed();
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Fox young = new Fox(false, getField(), loc);
             newFoxes.add(young);
         }
     }
-
-
 }
