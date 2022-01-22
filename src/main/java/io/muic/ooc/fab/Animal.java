@@ -13,7 +13,7 @@ public abstract class Animal {
     // The field occupied.
     private Field field;
     // Random generator
-    private static final Random RANDOM = new Random();
+    protected static final Random RANDOM = new Random();
 
     protected void setAge(int age) {
         this.age = age;
@@ -80,7 +80,20 @@ public abstract class Animal {
     }
 
     /**
-     * Indicate that the fox is no longer alive. It is removed from the field.
+     * Generate a number representing the number of births, if it can breed.
+     *
+     * @return The number of births (may be zero).
+     */
+    protected int breed(int breedingAge, double breedingProbability, int maxLitterSize) {
+        int births = 0;
+        if (canBreed(breedingAge) && RANDOM.nextDouble() <= breedingProbability) {
+            births = RANDOM.nextInt(maxLitterSize) + 1;
+        }
+        return births;
+    }
+
+    /**
+     * Indicate that the animal is no longer alive. It is removed from the field.
      */
     protected void setDead() {
         setAlive(false);

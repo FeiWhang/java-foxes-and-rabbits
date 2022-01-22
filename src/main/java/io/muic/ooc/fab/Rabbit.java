@@ -14,8 +14,6 @@ public class Rabbit extends Animal {
     private static final double BREEDING_PROBABILITY = 0.12;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
-    // A shared random number generator to control breeding.
-    private static final Random RANDOM = new Random();
 
     /**
      * Create a new rabbit. A rabbit may be created with age zero (a new born)
@@ -64,24 +62,11 @@ public class Rabbit extends Animal {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
         List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = breed(BREEDING_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Rabbit young = new Rabbit(false, getField(), loc);
             newRabbits.add(young);
         }
-    }
-
-    /**
-     * Generate a number representing the number of births, if it can breed.
-     *
-     * @return The number of births (may be zero).
-     */
-    private int breed() {
-        int births = 0;
-        if (canBreed(BREEDING_AGE) && RANDOM.nextDouble() <= BREEDING_PROBABILITY) {
-            births = RANDOM.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
     }
 }

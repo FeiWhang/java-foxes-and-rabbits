@@ -18,8 +18,6 @@ public class Fox extends Animal {
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static final int RABBIT_FOOD_VALUE = 9;
-    // Random generator
-    private static final Random RANDOM = new Random();
 
     // Individual characteristics (instance fields).
     // The fox's food level, which is increased by eating rabbits.
@@ -38,11 +36,8 @@ public class Fox extends Animal {
         setLocation(location);
         if (randomAge) {
            setAge(RANDOM.nextInt(MAX_AGE));
-            foodLevel = RANDOM.nextInt(RABBIT_FOOD_VALUE);
-        } else {
-            // leave age at 0
-            foodLevel = RANDOM.nextInt(RABBIT_FOOD_VALUE);
         }
+        foodLevel = RANDOM.nextInt(RABBIT_FOOD_VALUE);
     }
 
     /**
@@ -90,9 +85,7 @@ public class Fox extends Animal {
      */
     private Location findFood() {
         List<Location> adjacent = getField().adjacentLocations(getLocation());
-        Iterator<Location> it = adjacent.iterator();
-        while (it.hasNext()) {
-            Location where = it.next();
+        for (Location where : adjacent) {
             Object animal = getField().getObjectAt(where);
             if (animal instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit) animal;
@@ -116,7 +109,7 @@ public class Fox extends Animal {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
         List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
+        int births = breed(BREEDING_AGE, BREEDING_PROBABILITY, MAX_LITTER_SIZE);
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Fox young = new Fox(false, getField(), loc);
@@ -124,16 +117,5 @@ public class Fox extends Animal {
         }
     }
 
-    /**
-     * Generate a number representing the number of births, if it can breed.
-     *
-     * @return The number of births (may be zero).
-     */
-    private int breed() {
-        int births = 0;
-        if (canBreed(BREEDING_AGE) && RANDOM.nextDouble() <= BREEDING_PROBABILITY) {
-            births = RANDOM.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
+
 }
