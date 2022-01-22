@@ -52,7 +52,7 @@ public class Rabbit extends Animal {
      * @param newRabbits A list to return newly born rabbits.
      */
     public void run(List<Rabbit> newRabbits) {
-        incrementAge();
+        incrementAge(MAX_AGE);
         if (alive) {
             giveBirth(newRabbits);
             // Try to move into a free location.
@@ -79,7 +79,8 @@ public class Rabbit extends Animal {
      * Indicate that the rabbit is no longer alive. It is removed from the
      * field.
      */
-    public void setDead() {
+    @Override
+    protected void setDead() {
         alive = false;
         if (location != null) {
             field.clear(location);
@@ -108,16 +109,6 @@ public class Rabbit extends Animal {
         }
         location = newLocation;
         field.place(this, newLocation);
-    }
-
-    /**
-     * Increase the age. This could result in the rabbit's death.
-     */
-    private void incrementAge() {
-        age++;
-        if (age > MAX_AGE) {
-            setDead();
-        }
     }
 
     /**

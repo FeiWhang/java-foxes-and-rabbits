@@ -63,7 +63,7 @@ public class Fox extends Animal {
      * @param newFoxes A list to return newly born foxes.
      */
     public void hunt(List<Fox> newFoxes) {
-        incrementAge();
+        incrementAge(MAX_AGE);
         incrementHunger();
         if (alive) {
             giveBirth(newFoxes);
@@ -114,15 +114,7 @@ public class Fox extends Animal {
         field.place(this, newLocation);
     }
 
-    /**
-     * Increase the age. This could result in the fox's death.
-     */
-    private void incrementAge() {
-        age++;
-        if (age > MAX_AGE) {
-            setDead();
-        }
-    }
+
 
     /**
      * Make this fox more hungry. This could result in the fox's death.
@@ -199,7 +191,8 @@ public class Fox extends Animal {
     /**
      * Indicate that the fox is no longer alive. It is removed from the field.
      */
-    private void setDead() {
+    @Override
+    protected void setDead() {
         alive = false;
         if (location != null) {
             field.clear(location);
