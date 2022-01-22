@@ -59,7 +59,6 @@ public class Fox extends Animal {
      * This is what the fox does most of the time: it hunts for rabbits. In the
      * process, it might breed, die of hunger, or die of old age.
      *
-     * @param field The field currently occupied.
      * @param newFoxes A list to return newly born foxes.
      */
     public void hunt(List<Fox> newFoxes) {
@@ -175,17 +174,10 @@ public class Fox extends Animal {
      */
     private int breed() {
         int births = 0;
-        if (canBreed() && RANDOM.nextDouble() <= BREEDING_PROBABILITY) {
+        if (canBreed(BREEDING_AGE) && RANDOM.nextDouble() <= BREEDING_PROBABILITY) {
             births = RANDOM.nextInt(MAX_LITTER_SIZE) + 1;
         }
         return births;
-    }
-
-    /**
-     * A fox can breed if it has reached the breeding age.
-     */
-    private boolean canBreed() {
-        return age >= BREEDING_AGE;
     }
 
     /**

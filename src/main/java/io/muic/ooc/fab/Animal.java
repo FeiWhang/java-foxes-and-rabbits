@@ -14,6 +14,13 @@ public abstract class Animal {
         }
     }
 
+    /**
+     * An animal can breed if it has reached the breeding age.
+     */
+    protected boolean canBreed(int breedingAge) {
+        return age >= breedingAge;
+    }
+
     protected abstract void setDead();
 
 }
