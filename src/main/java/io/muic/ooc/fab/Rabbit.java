@@ -53,10 +53,10 @@ public class Rabbit extends Animal {
      *
      * @param newRabbits A list to return newly born rabbits.
      */
-    public void run(List<Rabbit> newRabbits) {
+    public void run(List<Animal> newRabbits) {
         incrementAge(MAX_AGE);
         if (isAlive()) {
-            giveBirth(newRabbits);
+            giveBirth(newRabbits, AnimalType.RABBIT);
             // Try to move into a free location.
             Location newLocation = getField().freeAdjacentLocation(getLocation());
             if (newLocation != null) {
@@ -65,24 +65,6 @@ public class Rabbit extends Animal {
                 // Overcrowding.
                 setDead();
             }
-        }
-    }
-
-    /**
-     * Check whether or not this rabbit is to give birth at this step. New
-     * births will be made into free adjacent locations.
-     *
-     * @param newRabbits A list to return newly born rabbits.
-     */
-    private void giveBirth(List<Rabbit> newRabbits) {
-        // New rabbits are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for (int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, getField(), loc);
-            newRabbits.add(young);
         }
     }
 }

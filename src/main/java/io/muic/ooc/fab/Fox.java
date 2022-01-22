@@ -63,11 +63,11 @@ public class Fox extends Animal {
      *
      * @param newFoxes A list to return newly born foxes.
      */
-    public void hunt(List<Fox> newFoxes) {
+    public void hunt(List<Animal> newFoxes) {
         incrementAge(MAX_AGE);
         incrementHunger();
         if (isAlive()) {
-            giveBirth(newFoxes);
+            giveBirth(newFoxes, AnimalType.FOX);
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if (newLocation == null) {
@@ -114,23 +114,5 @@ public class Fox extends Animal {
             }
         }
         return null;
-    }
-
-    /**
-     * Check whether or not this fox is to give birth at this step. New births
-     * will be made into free adjacent locations.
-     *
-     * @param newFoxes A list to return newly born foxes.
-     */
-    private void giveBirth(List<Fox> newFoxes) {
-        // New foxes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for (int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Fox young = new Fox(false, getField(), loc);
-            newFoxes.add(young);
-        }
     }
 }

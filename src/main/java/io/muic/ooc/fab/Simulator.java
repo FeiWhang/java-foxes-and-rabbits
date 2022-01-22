@@ -128,7 +128,7 @@ public class Simulator {
         step++;
 
         // Provide space for newborn rabbits.
-        List<Rabbit> newRabbits = new ArrayList<>();
+        List<Animal> newRabbits = new ArrayList<>();
         // Let all rabbits act.
         for (Iterator<Animal> it = rabbits.iterator(); it.hasNext();) {
             Rabbit rabbit = (Rabbit) it.next();
@@ -139,7 +139,7 @@ public class Simulator {
         }
 
         // Provide space for newborn foxes.
-        List<Fox> newFoxes = new ArrayList<>();
+        List<Animal> newFoxes = new ArrayList<>();
         // Let all foxes act.
         for (Iterator<Animal> it = foxes.iterator(); it.hasNext();) {
             Fox fox = (Fox) it.next();
