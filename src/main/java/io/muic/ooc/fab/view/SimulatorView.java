@@ -2,7 +2,6 @@ package io.muic.ooc.fab.view;
 
 
 import io.muic.ooc.fab.Animal;
-import io.muic.ooc.fab.AnimalType;
 import io.muic.ooc.fab.Field;
 import io.muic.ooc.fab.FieldStats;
 
@@ -28,13 +27,13 @@ public class SimulatorView extends JFrame {
 
     private final String STEP_PREFIX = "Step: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, population;
-    private FieldView fieldView;
+    private final JLabel stepLabel, population;
+    private final FieldView fieldView;
 
     // A map for storing colors for participants in the simulation
-    private final Map<Class, Color> colors;
+    private final Map<Class<? extends Animal>, Color> colors;
     // A statistics object computing and storing simulation information
-    private FieldStats stats;
+    private final FieldStats stats;
 
     /**
      * Create a view of the given width and height.
@@ -68,7 +67,7 @@ public class SimulatorView extends JFrame {
      * @param animalClass The animal's Class object.
      * @param color       The color to be used for the given class.
      */
-    public void setColor(Class animalClass, Color color) {
+    public void setColor(Class<? extends Animal> animalClass, Color color) {
         colors.put(animalClass, color);
         System.out.println(colors);
     }
@@ -76,7 +75,7 @@ public class SimulatorView extends JFrame {
     /**
      * @return The color to be used for a given class of animal.
      */
-    private Color getColor(Class animalClass) {
+    private Color getColor(Class<? extends Animal> animalClass) {
         Color col = colors.get(animalClass);
         if (col == null) {
             // no color defined for this class
@@ -104,7 +103,7 @@ public class SimulatorView extends JFrame {
 
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getObjectAt(row, col);
+                Animal animal = field.getObjectAt(row, col);
                 if (animal != null) {
                     stats.incrementCount(animal.getClass());
                     fieldView.drawMark(col, row, getColor(animal.getClass()));
