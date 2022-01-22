@@ -3,12 +3,17 @@ package io.muic.ooc.fab;
 import java.util.Random;
 
 public abstract class Animal {
+    // Individual characteristics (instance fields).
     // The animal age
     private int age = 0;
+    // Whether the animal is alive or not.
     private boolean alive = true;
+    // The animal's position.
+    private Location location;
+    // The field occupied.
+    private Field field;
     // Random generator
     private static final Random RANDOM = new Random();
-
 
     protected void setAge(int age) {
         this.age = age;
@@ -19,6 +24,36 @@ public abstract class Animal {
     }
 
     /**
+     * Return the animal's location.
+     *
+     * @return The animal's location.
+     */
+    public Location getLocation() {
+        return location;
+    }
+
+    /**
+     * Place the animal at the new location in the given field.
+     *
+     * @param newLocation The animal's new location.
+     */
+    protected void setLocation(Location newLocation) {
+        if (location != null) {
+            field.clear(location);
+        }
+        location = newLocation;
+        field.place(this, newLocation);
+    }
+
+    protected Field getField() {
+        return field;
+    }
+
+    protected void setField(Field field) {
+        this.field = field;
+    }
+
+    /**
      * Check whether the fox is alive or not.
      *
      * @return True if the fox is still alive.
@@ -26,7 +61,6 @@ public abstract class Animal {
     protected boolean isAlive() {
         return alive;
     }
-
 
     /**
      * Increase the age. This could result in the animal's death.
@@ -45,7 +79,15 @@ public abstract class Animal {
         return age >= breedingAge;
     }
 
-
-    protected abstract void setDead();
-
+    /**
+     * Indicate that the fox is no longer alive. It is removed from the field.
+     */
+    protected void setDead() {
+        setAlive(false);
+        if (location != null) {
+            field.clear(location);
+            location = null;
+            setField(null);
+        }
+    }
 }

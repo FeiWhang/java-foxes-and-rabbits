@@ -17,13 +17,6 @@ public class Rabbit extends Animal {
     // A shared random number generator to control breeding.
     private static final Random RANDOM = new Random();
 
-    // Individual characteristics (instance fields).
-    // Whether the rabbit is alive or not.
-    // The rabbit's position.
-    private Location location;
-    // The field occupied.
-    private Field field;
-
     /**
      * Create a new rabbit. A rabbit may be created with age zero (a new born)
      * or with a random age.
@@ -33,7 +26,7 @@ public class Rabbit extends Animal {
      * @param location The location within the field.
      */
     public Rabbit(boolean randomAge, Field field, Location location) {
-        this.field = field;
+        setField(field);
         setLocation(location);
         if (randomAge) {
             setAge(RANDOM.nextInt(MAX_AGE));
@@ -51,7 +44,7 @@ public class Rabbit extends Animal {
         if (isAlive()) {
             giveBirth(newRabbits);
             // Try to move into a free location.
-            Location newLocation = field.freeAdjacentLocation(location);
+            Location newLocation = getField().freeAdjacentLocation(getLocation());
             if (newLocation != null) {
                 setLocation(newLocation);
             } else {
@@ -59,42 +52,6 @@ public class Rabbit extends Animal {
                 setDead();
             }
         }
-    }
-
-    /**
-     * Indicate that the rabbit is no longer alive. It is removed from the
-     * field.
-     */
-    @Override
-    protected void setDead() {
-        setAlive(false);
-        if (location != null) {
-            field.clear(location);
-            location = null;
-            field = null;
-        }
-    }
-
-    /**
-     * Return the rabbit's location.
-     *
-     * @return The rabbit's location.
-     */
-    public Location getLocation() {
-        return location;
-    }
-
-    /**
-     * Place the rabbit at the new location in the given field.
-     *
-     * @param newLocation The rabbit's new location.
-     */
-    private void setLocation(Location newLocation) {
-        if (location != null) {
-            field.clear(location);
-        }
-        location = newLocation;
-        field.place(this, newLocation);
     }
 
     /**
@@ -106,11 +63,11 @@ public class Rabbit extends Animal {
     private void giveBirth(List<Rabbit> newRabbits) {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
-        List<Location> free = field.getFreeAdjacentLocations(location);
+        List<Location> free = getField().getFreeAdjacentLocations(getLocation());
         int births = breed();
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc);
+            Rabbit young = new Rabbit(false, getField(), loc);
             newRabbits.add(young);
         }
     }
