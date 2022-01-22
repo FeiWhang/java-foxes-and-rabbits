@@ -18,10 +18,7 @@ public class Rabbit extends Animal {
     private static final Random RANDOM = new Random();
 
     // Individual characteristics (instance fields).
-    // The rabbit's age.
-    private int age;
     // Whether the rabbit is alive or not.
-    private boolean alive;
     // The rabbit's position.
     private Location location;
     // The field occupied.
@@ -36,12 +33,10 @@ public class Rabbit extends Animal {
      * @param location The location within the field.
      */
     public Rabbit(boolean randomAge, Field field, Location location) {
-        age = 0;
-        alive = true;
         this.field = field;
         setLocation(location);
         if (randomAge) {
-            age = RANDOM.nextInt(MAX_AGE);
+            setAge(RANDOM.nextInt(MAX_AGE));
         }
     }
 
@@ -53,7 +48,7 @@ public class Rabbit extends Animal {
      */
     public void run(List<Rabbit> newRabbits) {
         incrementAge(MAX_AGE);
-        if (alive) {
+        if (isAlive()) {
             giveBirth(newRabbits);
             // Try to move into a free location.
             Location newLocation = field.freeAdjacentLocation(location);
@@ -67,21 +62,12 @@ public class Rabbit extends Animal {
     }
 
     /**
-     * Check whether the rabbit is alive or not.
-     *
-     * @return true if the rabbit is still alive.
-     */
-    public boolean isAlive() {
-        return alive;
-    }
-
-    /**
      * Indicate that the rabbit is no longer alive. It is removed from the
      * field.
      */
     @Override
     protected void setDead() {
-        alive = false;
+        setAlive(false);
         if (location != null) {
             field.clear(location);
             location = null;
