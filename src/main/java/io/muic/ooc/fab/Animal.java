@@ -100,6 +100,24 @@ public abstract class Animal {
         }
         return births;
     }
+//
+//    /**
+//     * Check whether or not this animal is to give birth at this step. New births
+//     * will be made into free adjacent locations.
+//     *
+//     * @param newAnimals A list to return newly born animals.
+//     */
+//    private void giveBirth(List<Animal> newAnimals) {
+//        // New foxes are born into adjacent locations.
+//        // Get a list of adjacent free locations.
+//        List<Location> free = field.getFreeAdjacentLocations(location);
+//        int births = breed();
+//        for (int b = 0; b < births && free.size() > 0; b++) {
+//            Location loc = free.remove(0);
+//            Animal young = new Animal(false, getField(), loc);
+//            newAnimals.add(young);
+//        }
+//    }
 
 
 
