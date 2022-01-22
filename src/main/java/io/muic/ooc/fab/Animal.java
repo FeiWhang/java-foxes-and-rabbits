@@ -89,6 +89,8 @@ public abstract class Animal {
         return age >= breedingAge;
     }
 
+    protected abstract void action(List<Animal> newAnimals);
+
     /**
      * Generate a number representing the number of births, if it can breed.
      *

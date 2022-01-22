@@ -1,6 +1,8 @@
 package io.muic.ooc.fab.view;
 
 
+import io.muic.ooc.fab.Animal;
+import io.muic.ooc.fab.AnimalType;
 import io.muic.ooc.fab.Field;
 import io.muic.ooc.fab.FieldStats;
 
@@ -30,7 +32,7 @@ public class SimulatorView extends JFrame {
     private FieldView fieldView;
 
     // A map for storing colors for participants in the simulation
-    private Map<Class, Color> colors;
+    private final Map<Class, Color> colors;
     // A statistics object computing and storing simulation information
     private FieldStats stats;
 
@@ -68,6 +70,7 @@ public class SimulatorView extends JFrame {
      */
     public void setColor(Class animalClass, Color color) {
         colors.put(animalClass, color);
+        System.out.println(colors);
     }
 
     /**
