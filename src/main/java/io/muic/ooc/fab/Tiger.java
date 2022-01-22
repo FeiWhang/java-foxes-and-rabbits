@@ -2,41 +2,41 @@ package io.muic.ooc.fab;
 
 import java.util.List;
 
-public class Fox extends Animal {
-    // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 15;
-    // The age to which a fox can live.
-    private static final int MAX_AGE = 150;
-    // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+public class Tiger extends Animal {
+    // The age at which a tiger can start to breed.
+    private static final int BREEDING_AGE = 20;
+    // The age to which a tiger can live.
+    private static final int MAX_AGE = 125;
+    // The likelihood of a tiger breeding.
+    private static final double BREEDING_PROBABILITY = 0.02;
 
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
+    private static final int MAX_LITTER_SIZE = 1;
 
     // Individual characteristics (instance fields).
-    // The fox's food level, which is increased by eating rabbits.
+    // The tiger's food level, which is increased by eating rabbits.
     private int foodLevel;
 
     /**
-     * Create a fox. A fox can be created as a new born (age zero and not
+     * Create a tiger. A tiger can be created as a new born (age zero and not
      * hungry) or with a random age and food level.
      *
-     * @param randomAge If true, the fox will have random age and hunger level.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param randomAge If true, the tiger will have random age and hunger level.
+     * @param field     The field currently occupied.
+     * @param location  The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location) {
+    public Tiger(boolean randomAge, Field field, Location location) {
         super(randomAge, field, location);
-        foodLevel = RANDOM.nextInt(AnimalType.RABBIT.getFoodValue());
+        foodLevel = RANDOM.nextInt(AnimalType.RABBIT.getFoodValue() + AnimalType.FOX.getFoodValue());
     }
 
     @Override
-    protected  int getMaxAge() {
+    protected int getMaxAge() {
         return MAX_AGE;
     }
 
     @Override
-    protected  int getBreedingAge() {
+    protected int getBreedingAge() {
         return BREEDING_AGE;
     }
 
@@ -50,18 +50,12 @@ public class Fox extends Animal {
         return MAX_LITTER_SIZE;
     }
 
-    /**
-     * This is what the fox does most of the time: it hunts for rabbits. In the
-     * process, it might breed, die of hunger, or die of old age.
-     *
-     * @param newFoxes A list to return newly born foxes.
-     */
     @Override
-    public void action(List<Animal> newFoxes) {
+    protected void action(List<Animal> newTigers) {
         incrementAge();
         incrementHunger();
         if (isAlive()) {
-            giveBirth(newFoxes, AnimalType.FOX);
+            giveBirth(newTigers, AnimalType.TIGER);
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if (newLocation == null) {
@@ -79,7 +73,7 @@ public class Fox extends Animal {
     }
 
     /**
-     * Make this fox more hungry. This could result in the fox's death.
+     * Make this tiger more hungry. This could result in the tiger's death.
      */
     private void incrementHunger() {
         foodLevel--;
@@ -89,7 +83,7 @@ public class Fox extends Animal {
     }
 
     /**
-     * Look for rabbits adjacent to the current location. Only the first live
+     * Look for rabbits or foxes adjacent to the current location. Only the first live
      * rabbit is eaten.
      *
      * @return Where food was found, or null if it wasn't.
@@ -102,6 +96,13 @@ public class Fox extends Animal {
                 if (rabbit.isAlive()) {
                     rabbit.setDead();
                     foodLevel = AnimalType.RABBIT.getFoodValue();
+                    return where;
+                }
+            } else if (animal instanceof Fox) {
+                Fox fox = (Fox) animal;
+                if (fox.isAlive()) {
+                    fox.setDead();
+                    foodLevel = AnimalType.FOX.getFoodValue();
                     return where;
                 }
             }

@@ -75,9 +75,9 @@ public abstract class Animal {
     /**
      * Increase the age. This could result in the animal's death.
      */
-    protected void incrementAge(int maxAge) {
+    protected void incrementAge() {
         age++;
-        if (age > maxAge) {
+        if (age > getMaxAge()) {
             setDead();
         }
     }
@@ -90,6 +90,10 @@ public abstract class Animal {
     }
 
     protected abstract void action(List<Animal> newAnimals);
+
+    protected List<Location> getAdjacent() {
+        return field.adjacentLocations(location);
+    }
 
     /**
      * Generate a number representing the number of births, if it can breed.

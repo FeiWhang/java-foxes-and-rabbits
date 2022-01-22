@@ -1,11 +1,8 @@
 package io.muic.ooc.fab;
 
 import java.util.List;
-import java.util.Random;
 
 public class Rabbit extends Animal {
-    // Characteristics shared by all rabbits (class variables).
-
     // The age at which a rabbit can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a rabbit can live.
@@ -55,7 +52,7 @@ public class Rabbit extends Animal {
      */
     @Override
     public void action(List<Animal> newRabbits) {
-        incrementAge(MAX_AGE);
+        incrementAge();
         if (isAlive()) {
             giveBirth(newRabbits, AnimalType.RABBIT);
             // Try to move into a free location.

@@ -69,7 +69,6 @@ public class SimulatorView extends JFrame {
      */
     public void setColor(Class<? extends Animal> animalClass, Color color) {
         colors.put(animalClass, color);
-        System.out.println(colors);
     }
 
     /**
@@ -137,7 +136,7 @@ public class SimulatorView extends JFrame {
 
         private final int GRID_VIEW_SCALING_FACTOR = 6;
 
-        private int gridWidth, gridHeight;
+        private final int gridWidth, gridHeight;
         private int xScale, yScale;
         Dimension size;
         private Graphics g;

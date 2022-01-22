@@ -57,7 +57,6 @@ public class Simulator {
         view = new SimulatorView(depth, width);
         // set color for each animal type
         for (AnimalType animalType: AnimalType.values()) {
-            System.out.println(view);
             view.setColor(animalType.getAnimalClass(), animalType.getColor());
         }
         view.addWindowListener(new WindowListener() {
